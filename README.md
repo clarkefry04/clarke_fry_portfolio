@@ -1,1 +1,0 @@
-# clarke_fry_portfolio
