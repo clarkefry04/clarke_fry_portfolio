@@ -161,7 +161,8 @@
                $('#image-loader').fadeOut();
                $('#message-warning').hide();
                $('#contactForm').fadeOut();
-               $('#message-success').fadeIn();   
+               $('#message-success').fadeIn();
+               console.log(data);   
             }
             // There was an error
             else {
