@@ -1,7 +1,7 @@
 ﻿<?php
 
 // Replace this with your own email address
-$siteOwnersEmail = 'fryc@hawks.rockhurst.edu';
+$siteOwnersEmail = 'clarkefry@gmail.com';
 
 
 if($_POST) {
