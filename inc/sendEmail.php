@@ -1,9 +1,5 @@
 ﻿<?php
 
-// Replace this with your own email address
-$siteOwnersEmail = 'clarkefry@gmail.com';
-
-
 if($_POST) {
 
    $name = trim(stripslashes($_POST['contactName']));
@@ -29,7 +25,7 @@ if($_POST) {
 
    // Set Message
    $message .= "Email from: " . $name . "<br />";
-	$message .= "Email address: " . $email . "<br />";
+   $message .= "Email address: " . $email . "<br />";
    $message .= "Message: <br />";
    $message .= $contact_message;
    $message .= "<br /> ----- <br /> This email was sent from your site's contact form. <br />";
@@ -37,20 +33,56 @@ if($_POST) {
    // Set From: header
    $from =  $name . " <" . $email . ">";
 
-   // Email Headers
+	// Email Headers
 	$headers = "From: " . $from . "\r\n";
 	$headers .= "Reply-To: ". $email . "\r\n";
- 	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
-
+	
+	//if theres no error
    if (!$error) {
+		
+		//send the email
+		 $url = 'https://api.sendgrid.com/';
+		 $user = '<this is your sendgrid username>';
+		 $pass = '<this is your sendgrid password>';
 
-      ini_set("sendmail_from", $siteOwnersEmail); // for windows server
-      $mail = mail($siteOwnersEmail, $subject, $message, $headers);
+		 $params = array(
+			  'api_user' => $user,
+			  'api_key' => $pass,
+			  'to' => 'clarkefry@gmail.com',
+			  'subject' => $subject,
+			  'html' => $message,
+			  'from' => $email,
+		   );
 
-		if ($mail) { echo "OK"; }
-      else { echo "Something went wrong. Please try again."; }
+		 $request = $url.'api/mail.send.json';
+
+		 // Generate curl request
+		 $session = curl_init($request);
+
+		 // Tell curl to use HTTP POST
+		 curl_setopt ($session, CURLOPT_POST, true);
+
+		 // Tell curl that this is the body of the POST
+		 curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+
+		 // Tell curl not to return headers, but do return the response
+		 curl_setopt($session, CURLOPT_HEADER, false);
+		 curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+
+		 // obtain response
+		 $response = curl_exec($session);
+		 curl_close($session);
+
+		if (strpos($response, 'success') !== false)
+		{ 
+			echo "Success! Thank you for contacting me"; 
+		}
+		else 
+		{ 
+			echo "Something went wrong. Please try again."; 
+		}
 		
 	} # end if - no validation error
 
