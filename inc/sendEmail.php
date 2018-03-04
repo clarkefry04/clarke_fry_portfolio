@@ -16,12 +16,12 @@ try {
     $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;                                    // TCP port to connect to
     //Recipients
-    $mail->setFrom(trim(stripslashes($_POST['contactEmail']), trim(stripslashes($_POST['contactName']));
+    $mail->setFrom(trim(stripslashes($_POST['contactEmail'])), trim(stripslashes($_POST['contactName'])));
     $mail->addAddress('clarkefry@gmail.com');     // Add a recipient
     //Content
     $mail->isHTML(true);                                  // Set email format to HTML
-    $mail->Subject = trim(stripslashes($_POST['contactSubject']);
-    $mail->Body    = trim(stripslashes($_POST['contactMessage']);
+    $mail->Subject = trim(stripslashes($_POST['contactSubject']));
+    $mail->Body    = trim(stripslashes($_POST['contactMessage']));
     $mail->send();
     echo 'Message has been sent';
 } catch (Exception $e) {
